@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,7 +15,7 @@ namespace QS_DS_Program
     {
         private string IncomingData;
         private Stopwatch stopwatch = new Stopwatch();
-        private void SerialDataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        private void SerialDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             IncomingData = MainSerialPort.ReadLine();
             Invoke(new EventHandler(ReceivedDataHandle));
