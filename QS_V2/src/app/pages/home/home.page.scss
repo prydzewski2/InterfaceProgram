@@ -1,0 +1,30 @@
+@import "src/scss/_mixins";
+
+.col {
+  flex-basis: 100%;
+  display: flex;
+  font-weight: 700;
+  border-bottom: 1px solid var(--ion-color-medium);
+
+  @include for-size(lg) {
+    flex-basis: 320px;
+    border-bottom: none;
+  }
+
+  .mobile-label {
+    font-size: 13px;
+
+    @include for-size(lg) {
+      display: none;
+    }
+  }
+
+  span {
+    margin-left: auto;
+    font-size: 14px;
+
+    @include for-size(lg) {
+      margin-left: 0;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Configuration
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" >
+  <div>
+    <label *ngFor="let v of values.values()">
+      {{v.valueType}}: {{v.value}}
+    </label>
+  </div>
+
+  <ion-buttons>
+    <ion-button size="large" (click)="read()" fill="solid" shape="round" class="with-animation">
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      <span class="text">Refresh</span>
+    </ion-button>
+  </ion-buttons>
+</ion-content>

@@ -1,0 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <form *ngIf="formGroup" [formGroup]="formGroup" (ngSubmit)="connect()" novalidate autocomplete="off">
+      <div class="wrapper">
+        <ion-list>
+          <ion-item lines="none">
+            <ion-label>Port</ion-label>
+            <ion-select formControlName="devicePort" class="full-width" interface="action-sheet">
+              <ion-select-option *ngFor="let port of ports" [value]="port">{{ port.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div *ngIf="devicePort.hasError('required') && (devicePort.dirty || devicePort.touched)" class="validation-errors">
+            <div class="error-message">
+              {{ 'Nie wybrano portu urządzenia' }}
+            </div>
+          </div>
+        </ion-list>
+      </div>
+      <ion-buttons>
+        <ion-button *ngIf="!pending" size="large" type="submit" fill="solid" shape="round" class="with-animation">
+          <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+          <span class="text">Połącz</span>
+        </ion-button>
+      </ion-buttons>
+    </form>
+</ion-content>
