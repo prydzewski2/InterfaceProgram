@@ -9,18 +9,18 @@
 <ion-content [fullscreen]="true" >
   <ion-grid>
     <ion-row>
-      <ion-col>
+      <ion-col [size]="3">
         <ion-label>RPM</ion-label>
       </ion-col>
-      <ion-col [size]="3">
+      <ion-col>
         <ion-progress-bar color="danger" [value]="rpmValue.value" [reversed]="rpmValue.reversed"></ion-progress-bar>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
+      <ion-col [size]="3">
         <ion-label>Sensor</ion-label>
       </ion-col>
-      <ion-col [size]="3">
+      <ion-col>
         <ion-progress-bar color="success" [value]="sensorValue.value" [reversed]="sensorValue.reversed"></ion-progress-bar>
       </ion-col>
     </ion-row>
