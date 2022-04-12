@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ViewWillEnter } from '@ionic/angular';
+import { TelemetryComponents } from 'src/core/models/telemetry';
 import { AlertService } from 'src/core/services/common/alert-service';
 import { SerialPortService } from 'src/core/services/communications/serial-port.service';
 import {Device} from "../../../core/models/device";

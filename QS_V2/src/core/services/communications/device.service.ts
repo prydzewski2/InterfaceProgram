@@ -51,8 +51,8 @@ export class DeviceService implements OnDestroy{
       const value = device.telemetry.get(i.valueType);
       const valueToSet = values[i.index];
 
-      if (value.value != valueToSet) {
-        value.value = valueToSet;
+      if (value.getValue() != valueToSet) {
+        value.setValue(valueToSet);
         changed = true;
       }
     });

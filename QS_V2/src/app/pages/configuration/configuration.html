@@ -7,16 +7,65 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" >
-  <div>
-    <label *ngFor="let v of values.values()">
-      {{v.valueType}}: {{v.value}}
-    </label>
-  </div>
+  <ion-grid>
+    <ion-row *ngFor="let row of editor">
+      <ion-col *ngFor="let column of row.columns" [ngSwitch]="column.type">
+        <ion-item>
+          <ion-label>{{column.telemetry}}</ion-label>
+          <ion-input *ngSwitchCase="'number'"
+                     type="number"
+                     [value]="getValue(column.telemetry)"
+                     [readonly]="column.readonly()"
+                     [disabled]="column.disabled()">
+          </ion-input>
+
+          <ion-input *ngSwitchCase="'decimal'"
+                     type="number"
+                     step="0.01"
+                     [value]="getValue(column.telemetry)"
+                     [readonly]="column.readonly()"
+                     [disabled]="column.disabled()">
+          </ion-input>
+
+          <ion-checkbox *ngSwitchCase="'checkbox'"
+                        [checked]="!!getValue(column.telemetry)"
+                        [value]="getValue(column.telemetry)"
+                        [disabled]="column.disabled()">
+          </ion-checkbox>
+
+          <ion-select *ngSwitchCase="'select'"
+                      placeholder="Select One"
+                      [value]="getValue(column.telemetry)"
+                      [disabled]="column.disabled()">
+            <ion-select-option *ngFor="let item of column.options" value="{{item.value}}">{{item.text}}</ion-select-option>
+          </ion-select>
+
+          <div *ngSwitchDefault>Not Defined</div>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-buttons>
     <ion-button size="large" (click)="read()" fill="solid" shape="round" class="with-animation">
       <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
-      <span class="text">Refresh</span>
+      <span class="text">Read</span>
+    </ion-button>
+    <ion-button size="large" (click)="cutTest()" fill="solid" shape="round" class="with-animation">
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      <span class="text">C</span>
+    </ion-button>
+    <ion-button size="large" (click)="blipTest()" fill="solid" shape="round" class="with-animation">
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      <span class="text">Blip Test</span>
+    </ion-button>
+    <ion-button size="large" (click)="reset()" fill="solid" shape="round" class="with-animation">
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      <span class="text">Reset</span>
+    </ion-button>
+    <ion-button size="large" (click)="save()" fill="solid" shape="round" class="with-animation">
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      <span class="text">Save</span>
     </ion-button>
   </ion-buttons>
 </ion-content>

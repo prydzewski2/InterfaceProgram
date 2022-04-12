@@ -134,7 +134,7 @@ export class SerialPortService {
         resolve(this.currentDevice);
       });
       this.logger.info('SerialPortService(connect) connecting, starting stream subscriber...');
-      this.serialPort.pipe(new this.serialPortManager.parsers.Readline({ delimiter: '\n' })).on('data', data => {
+      this.serialPort.pipe(new this.serialPortManager.parsers.Readline({ delimiter: '\r\n' })).on('data', data => {
         this.onDataSubject.next(data)
       });
       this.logger.info('SerialPortService(connect) connecting, open ports...');

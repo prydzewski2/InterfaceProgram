@@ -6,15 +6,20 @@ export const enum TelemetryType {
 export interface Telemetry {
   type: TelemetryType,
   index: number,
-  value?: string,
+  getValue: () => string,
+  setValue: (value: string) => void,
   valueType: TelemetryValueType
 }
 
 class TelemetryValue implements Telemetry {
+  private value: string;
+
   constructor(
     public valueType: TelemetryValueType,
     public index: number,
-    public type: TelemetryType = TelemetryType.Configuration
+    public type: TelemetryType = TelemetryType.Configuration,
+    public getValue = () => this.value,
+    public setValue = (val) => this.value = val
   ) { }
 }
 
@@ -93,5 +98,62 @@ export const TelemetryValues: Telemetries = new Map([
   [TelemetryValueType.MinRPMDS, new TelemetryValue(TelemetryValueType.MinRPMDS, 30)],
   [TelemetryValueType.MaxRPMDS, new TelemetryValue(TelemetryValueType.MaxRPMDS, 31)],
   [TelemetryValueType.PostDelayQS, new TelemetryValue(TelemetryValueType.PostDelayQS, 32)],
-  [TelemetryValueType.PostDelayDS, new TelemetryValue(TelemetryValueType.PostDelayDS, 33)],
+  [TelemetryValueType.PostDelayDS, new TelemetryValue(TelemetryValueType.PostDelayDS, 33)]
+]);
+
+export interface ValueComponentType {
+  type: 'checkbox' | 'number' | 'decimal' | 'select';
+  readonly: () => boolean;
+  disabled: () => boolean;
+  row: number;
+  column: number;
+  options?: { text: string, value: string }[];
+}
+
+class ValueComponent implements ValueComponentType {
+  constructor(
+    public type: 'checkbox' | 'number' | 'decimal' | 'select',
+    public row: number = 0,
+    public column: number = 0,
+    public options?: { text: string, value: string }[],
+    public readonly = () => false,
+    public disabled = () => false
+  ) {
+  }
+}
+
+export const TelemetryComponents: Map<TelemetryValueType, ValueComponentType> = new Map([
+  [TelemetryValueType.MajorVersion, new ValueComponent('number', 0, 0, undefined, () => true)],
+  [TelemetryValueType.MinorVersion, new ValueComponent('number', 0, 1, undefined, () => true)],
+  [TelemetryValueType.QsType, new ValueComponent('select', 1, 0, [{text: 'QS1', value: '1'}, {text: 'QS2', value: '2'}])],
+  [TelemetryValueType.Ds, new ValueComponent('checkbox', 1, 1)],
+  [TelemetryValueType.QsEnable, new ValueComponent('checkbox', 1, 2)],
+  [TelemetryValueType.DsEnable, new ValueComponent('checkbox', 1, 3)],
+  [TelemetryValueType.PushCheckQs, new ValueComponent('select', 2, 0, [{text: 'Push', value: '0'}, {text: 'Pull', value: '1'}])],
+  [TelemetryValueType.Pulses, new ValueComponent('decimal', 2, 1)],
+  [TelemetryValueType.PreDelayQS, new ValueComponent('number', 3, 0)],
+  [TelemetryValueType.CutTime1, new ValueComponent('number', 4, 0)],
+  [TelemetryValueType.CutTime2, new ValueComponent('number', 5, 0)],
+  [TelemetryValueType.CutTime3, new ValueComponent('number', 6, 0)],
+  [TelemetryValueType.CutTime4, new ValueComponent('number', 7, 0)],
+  [TelemetryValueType.CutTime5, new ValueComponent('number', 8, 0)],
+  [TelemetryValueType.CutTime6, new ValueComponent('number', 9, 0)],
+  [TelemetryValueType.CutTime7, new ValueComponent('number', 10, 0)],
+  [TelemetryValueType.CutTime8, new ValueComponent('number', 11, 0)],
+  [TelemetryValueType.QSForce, new ValueComponent('number', 12, 0)],
+  [TelemetryValueType.MinRPMQS, new ValueComponent('number', 13, 0)],
+  [TelemetryValueType.PreDelayDS, new ValueComponent('number', 3, 1)],
+  [TelemetryValueType.BlipTime1, new ValueComponent('number', 4, 1)],
+  [TelemetryValueType.BlipTime2, new ValueComponent('number', 5, 1)],
+  [TelemetryValueType.BlipTime3, new ValueComponent('number', 6, 1)],
+  [TelemetryValueType.BlipTime4, new ValueComponent('number', 7, 1)],
+  [TelemetryValueType.BlipTime5, new ValueComponent('number', 8, 1)],
+  [TelemetryValueType.BlipTime6, new ValueComponent('number', 9, 1)],
+  [TelemetryValueType.BlipTime7, new ValueComponent('number', 10, 1)],
+  [TelemetryValueType.BlipTime8, new ValueComponent('number', 11, 1)],
+  [TelemetryValueType.DSForce, new ValueComponent('number', 12, 1)],
+  [TelemetryValueType.MinRPMDS, new ValueComponent('number', 13, 1)],
+  [TelemetryValueType.MaxRPMDS, new ValueComponent('number', 14, 1)],
+  [TelemetryValueType.PostDelayQS, new ValueComponent('number', 14, 0)],
+  [TelemetryValueType.PostDelayDS, new ValueComponent('number', 15, 1)]
 ]);
