@@ -46,8 +46,32 @@ export class ConfigurationPage implements ViewWillEnter {
     return this.values.get(key)?.getValue();
   }
 
+  public setValue(key: TelemetryValueType, value?: string): void {
+    if (!value) {
+      return;
+    }
+
+    this.values.get(key)?.setValue(value);
+  }
+
   public get device(): Device | undefined {
     return this.deviceService.connectedDevice();
+  }
+
+  public get sensorValue(): { value: number, reversed: boolean } {
+    const val = parseInt(this.values.get(TelemetryValueType.Sensor)?.getValue() || '2000') - 2000;
+    return {
+      value: (Math.abs(val) / 100) % 1,
+      reversed: val < 0
+    };
+  }
+
+  public get rpmValue(): { value: number, reversed: boolean } {
+    const val = parseFloat(this.values.get(TelemetryValueType.Rpm)?.getValue() || '0.0');
+    return {
+      value: (Math.abs(val) / 10000) % 1,
+      reversed: false
+    };
   }
 
   public async read() {
@@ -67,6 +91,7 @@ export class ConfigurationPage implements ViewWillEnter {
   }
 
   public async save() {
+    await this.deviceService.saveData();
     // await this.serialPortService.write('S,');
   }
 

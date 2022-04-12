@@ -5,6 +5,6 @@ export const environment = {
       baudRate: 9600,
       autoOpen: true
     },
-    logger: false
+    logger: true
   }
 };

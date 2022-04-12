@@ -1,7 +1,7 @@
 import {Injectable, OnDestroy } from '@angular/core'
 import {Observable, Subject, Subscription } from "rxjs";
 import { Device } from 'src/core/models/device';
-import {Telemetries, TelemetryValues } from 'src/core/models/telemetry';
+import {Telemetries, TelemetryType, TelemetryValues } from 'src/core/models/telemetry';
 import { SerialPortService } from "./serial-port.service";
 
 @Injectable({
@@ -25,6 +25,17 @@ export class DeviceService implements OnDestroy{
 
   public onChange(): Observable<Telemetries> {
     return this.onChangeSubject;
+  }
+
+  public saveData(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      let cmd = 'S,';
+
+      cmd += Array.from(this.device.telemetry.values()).filter(i => i.type === TelemetryType.Configuration && i.index >= 5)
+        .sort((a, b) => a.index - b.index).map(i => i.getValue()).join(',');
+
+      await this.serialPortService.write(cmd);
+    });
   }
 
   ngOnDestroy(): void {
