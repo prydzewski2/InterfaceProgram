@@ -46,7 +46,7 @@
           </ion-input>
 
           <ion-checkbox *ngSwitchCase="'checkbox'"
-                        [checked]="getValue(column.telemetry) == '0'"
+                        [checked]="getValue(column.telemetry) == '1'"
                         [value]="getValue(column.telemetry)"
                         (ionChange)="setValue(column.telemetry, $event.detail.checked ? '1' : '0')"
                         [disabled]="column.disabled()">
